@@ -30,7 +30,7 @@
 var app = angular.module('myApp', ['smart-table']);
 
 app.controller('basicsCtrl', ['$scope', function (scope) {
-    scope.socket = io("http://localhost:8081");
+    scope.socket = io("http://scoreboard:8081");
 
 
     scope.getTwitterProfileImg=function(handle) {
