@@ -14,12 +14,13 @@
 <div class="container">
 <div class="panel panel-default">
 <div class="panel-heading">Workshop Score Board  &nbsp;&nbsp;&nbsp; username/score</div>   
-<table st-table="rowCollection" id="tblScoreboard" class="table table-striped">
+<table st-table="rowCollection" id="tblScoreboard" class="table">
     <tbody>
     <tr ng-repeat="row in rowCollection">
-
-        <td><b>{{row.name}}</b></td>
-        <td><b>{{row.score}}</b></td>
+        <td width="54px" height="48px"><a href="#"><img  src={{getTwitterProfileImg(row.name)}} </img></a></td>
+        <td style="text-align:left;padding-left:15%;"><b><h2><span class="">{{row.name}}</span></h2></b></td>
+        <td><b><h2><span class="label label-default">{{row.score}}</span></h2></b></td>
+        <td><img src=img/{{row.trend}}.png ></img</td>
     </tr>
     </tbody>
 </table>
@@ -30,17 +31,32 @@ var app = angular.module('myApp', ['smart-table']);
 
 app.controller('basicsCtrl', ['$scope', function (scope) {
     scope.socket = io("http://localhost:8081");
+
+
+    scope.getTwitterProfileImg=function(handle) {
+        return "https://twitter.com/"+handle+"/profile_image?size=normal";
+    }
+    scope.getTrendIcon=function(trend) {
+       return "glyphicon glyphicon-arrow-"+trend;
+    }
+    
     scope.sortArray=function(a,b) {
-          if (a.score < b.score)
+          if (a.score < b.score){
+            a.trend='down';
+            b.trend='up';
             return 1;
-          if (a.score > b.score)
+          } 
+          if (a.score > b.score){
+            a.trend='up';
+            b.trend='down';
             return -1;
+          }
           return 0;
     }
     scope.socket.on('message',function(msg) {
         scope.rowCollection=[];
         for(k in msg){
-            var tmp={name:k,score:scope.countScore(msg[k])};
+            var tmp={name:k,score:scope.countScore(msg[k]),trend:'neu'};
             console.log(tmp);
             scope.rowCollection.push(tmp);
         }
