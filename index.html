@@ -54,9 +54,11 @@ app.controller('basicsCtrl', ['$scope', function (scope) {
     }
     scope.socket.on('message',function(msg) {
         scope.rowCollection=[];
+        var excludes=['spartan','dev','cjonagam','scottcranton'];
         for(k in msg){
             var tmp={name:k,score:scope.countScore(msg[k]),trend:'neu'};
             console.log(tmp);
+            if(excludes.indexOf(k)==-1)
             scope.rowCollection.push(tmp);
         }
         scope.rowCollection.sort(scope.sortArray);
