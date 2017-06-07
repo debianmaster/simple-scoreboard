@@ -30,7 +30,7 @@
 var app = angular.module('myApp', ['smart-table']);
 
 app.controller('basicsCtrl', ['$scope', function (scope) {
-    scope.socket = io("http://scoreboard-ci.apps.ck.osecloud.com");
+    scope.socket = io("http://localhost:8081");
 
 
     scope.getTwitterProfileImg=function(handle) {
@@ -41,6 +41,7 @@ app.controller('basicsCtrl', ['$scope', function (scope) {
     }
     
     scope.sortArray=function(a,b) {
+      console.log(a,b);
           if (a.score < b.score){
             a.trend='down';
             b.trend='up';
@@ -51,28 +52,19 @@ app.controller('basicsCtrl', ['$scope', function (scope) {
             b.trend='down';
             return -1;
           }
-          return 0;
+          //return 0;
     }
     scope.socket.on('message',function(msg) {
+        console.log(msg);
         scope.rowCollection=[];
-        for(k in msg){
-            var tmp={name:k,score:scope.countScore(msg[k]),trend:'neu'};
-            console.log(tmp);
-            scope.rowCollection.push(tmp);
-        }
+        //for(k in msg){
+          //console.log(k,msg[k]);
+          //scope.rowCollection.push({name:k,score:msg[k]});
+        //}
+        scope.rowCollection=msg;
         scope.rowCollection.sort(scope.sortArray);
         scope.$apply();
     });
-    scope.countScore=function(obj){
-        console.log('test');
-        var count=0;
-        for (k in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, k)) {
-                count++;
-            }
-        }
-        return count;
-    }   
 }]);
 </script> 
 </body>
