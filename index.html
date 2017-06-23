@@ -30,7 +30,7 @@
 var app = angular.module('myApp', ['smart-table']);
 
 app.controller('basicsCtrl', ['$scope', function (scope) {
-    scope.socket = io("http://score-api-ci.apps.ck.osecloud.com");
+    scope.socket = io("http://watch-api-ci.192.168.152.238.xip.io");
 
 
     scope.getTwitterProfileImg=function(handle) {
