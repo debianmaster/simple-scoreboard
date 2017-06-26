@@ -31,7 +31,7 @@ var app = angular.module('myApp', ['smart-table']);
 
 app.controller('basicsCtrl', ['$scope', function (scope) {
     var url=window.location.hostname;
-    url = "http://"+suburl.replace('watch','watch-api');
+    url = "http://"+url.replace('watch','watch-api');
     scope.socket = io(url);
     scope.getTwitterProfileImg=function(handle) {
         return "https://twitter.com/"+handle+"/profile_image?size=normal";
